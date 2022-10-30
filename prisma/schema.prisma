@@ -12,24 +12,63 @@ datasource db {
 
 enum GuiaStatus {
   Liberada
-  PedidoExames
+  SobAuditoria
+  Cancelada
+  Negada
 }
 
 enum GuiaTipos {
   Ambulatorial
+  Cirurgica
 }
 
-model User {
+enum Role {
+  auditoria
+  regulacao
+  admin
+}
+
+model Customer {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
-  Guias Guias[]
+  Guias Guia[]
+
+  @@map("customers")
 }
 
-model Guias {
-  id     Int        @id @default(autoincrement())
-  status GuiaStatus @default(Liberada)
-  tipo   GuiaTipos  @default(Ambulatorial)
-  user   User       @relation(fields: [userId], references: [id])
-  userId Int
+model Guia {
+  id             Int        @id @default(autoincrement())
+  status         GuiaStatus @default(Liberada)
+  tipo           GuiaTipos  @default(Ambulatorial)
+  data_emissao   DateTime   @default(now())
+  data_alteracao DateTime
+
+  customerId    Int
+  customer      Customer   @relation(fields: [customerId], references: [id])
+  userId        Int?
+  User          User?      @relation(fields: [userId], references: [id])
+  solicitanteId Int
+  Prestador     Prestador? @relation(fields: [solicitanteId], references: [id])
+
+  @@map("guias")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  username String
+  password String
+  role     Role
+  guias    Guia[]
+
+  @@map("usuarios")
+}
+
+model Prestador {
+  id    Int    @id @default(autoincrement())
+  name  String
+  guias Guia[]
+
+  @@map("prestadores")
 }
