@@ -32,7 +32,7 @@ model Customer {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
-  Guias Guia[]
+  guias Guia[]
 
   @@map("customers")
 }
@@ -44,12 +44,12 @@ model Guia {
   data_emissao   DateTime   @default(now())
   data_alteracao DateTime
 
-  customerId    Int
-  customer      Customer   @relation(fields: [customerId], references: [id])
-  userId        Int?
-  User          User?      @relation(fields: [userId], references: [id])
-  solicitanteId Int
-  Prestador     Prestador? @relation(fields: [solicitanteId], references: [id])
+  customer_id    Int
+  customer       Customer   @relation(fields: [customer_id], references: [id])
+  user_id        Int?
+  User           User?      @relation(fields: [user_id], references: [id])
+  solicitante_id Int
+  Prestador      Prestador? @relation(fields: [solicitante_id], references: [id])
 
   @@map("guias")
 }

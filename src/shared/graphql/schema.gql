@@ -2,28 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auditoria {
-  """Example field (placeholder)"""
-  exampleField: Int!
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Guia {
+  customer_id: Int!
+  data_alteracao: DateTime!
+  data_emissao: DateTime!
+  id: Int!
+  solicitante_id: Int!
+  status: GuiaStatus!
+  tipo: GuiaTipos!
+  user_id: Int!
 }
 
-input CreateAuditoriaInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+enum GuiaStatus {
+  Cancelada
+  Liberada
+  Negada
+  SobAuditoria
 }
 
-type Mutation {
-  createAuditoria(createAuditoriaInput: CreateAuditoriaInput!): Auditoria!
-  removeAuditoria(id: Int!): Auditoria!
-  updateAuditoria(updateAuditoriaInput: UpdateAuditoriaInput!): Auditoria!
+enum GuiaTipos {
+  Ambulatorial
+  Cirurgica
 }
 
 type Query {
-  auditoria(id: Int!): Auditoria!
-}
-
-input UpdateAuditoriaInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  findAllGuias: [Guia!]!
+  findAllGuiasByAuditor(auditor_id: Float!): [Guia!]!
 }

@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAuditoriaInput } from '../dto/create-auditoria.input';
-import { UpdateAuditoriaInput } from '../dto/update-auditoria.input';
+import { AuditoriaRepository } from '../repositories/auditoria.repository';
 
 @Injectable()
 export class AuditoriaService {
-  create(createAuditoriaInput: CreateAuditoriaInput) {
-    return 'This action adds a new auditoria';
+  constructor(private auditoriaRepository: AuditoriaRepository) {}
+
+  async findAllGuias() {
+    return await this.auditoriaRepository.findAllGuias();
   }
 
-  findAll() {
-    return `This action returns all auditoria`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auditoria`;
-  }
-
-  update(id: number, updateAuditoriaInput: UpdateAuditoriaInput) {
-    return `This action updates a #${id} auditoria`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auditoria`;
+  async findAllGuiasByAuditor(auditor_id: number) {
+    return await this.auditoriaRepository.findAllGuiasByAuditor(auditor_id);
   }
 }
